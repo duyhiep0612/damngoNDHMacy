@@ -63,7 +63,7 @@
             100% { transform: scale(1.15) rotate(1deg); filter: blur(40px) brightness(0.75); }
         }
 
-        /* Subtle dark vignette overlay */
+        /* Dark vignette overlay */
         .bg-overlay-vignette {
             position: absolute;
             top: 0; left: 0;
@@ -103,14 +103,13 @@
             animation: cardBreath 16s ease-in-out infinite alternate;
         }
 
-        /* Ken Burns Breathing Effect on Main Image */
         @keyframes cardBreath {
             0% { transform: scale(1) translateY(0px); }
             50% { transform: scale(1.025) translateY(-6px); }
             100% { transform: scale(1) translateY(0px); }
         }
 
-        /* 2. Main sharp wedding invitation image */
+        /* Main wedding card image */
         .main-wedding-card {
             height: 100%;
             width: auto;
@@ -119,7 +118,7 @@
             display: block;
         }
 
-        /* Dynamic Golden Light Sheen Effect (Lướt qua bề mặt thiệp) */
+        /* Golden Light Sheen Effect */
         .gold-sheen-overlay {
             position: absolute;
             top: -50%;
@@ -174,7 +173,7 @@
             }
         }
 
-        /* Golden Sparkle / Gold Dust Effect */
+        /* Gold Dust Sparkle Effect */
         .sparkle {
             position: absolute;
             pointer-events: none;
@@ -198,7 +197,7 @@
             }
         }
 
-        /* Fullscreen Start Overlay */
+        /* Start Overlay Screen */
         #start-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -255,7 +254,7 @@
             box-shadow: 0 1.5vmin 4vmin rgba(212, 175, 55, 0.7);
         }
 
-        /* Floating Toolbar at bottom right */
+        /* Toolbar Buttons */
         .bottom-toolbar {
             position: fixed;
             bottom: 2.5vmin;
@@ -304,7 +303,7 @@
         </p>
     </div>
 
-    <!-- Background Music Audio Loop (Tự động nhận danh sách 3 bài) -->
+    <!-- Background Audio Element -->
     <audio id="bg-audio" preload="auto"></audio>
 
     <!-- TV Presentation Container -->
@@ -319,7 +318,6 @@
         <!-- Main sharp wedding invitation image container with dynamic sheen -->
         <div class="card-container">
             <img class="main-wedding-card" id="main-card-img" src="https://res.cloudinary.com/ddmicdykt/image/upload/v1785400426/damngo_NDHMacy_avbrus.png" alt="Thiệp Cưới Duy Hiệp & Minh Nguyệt">
-            <!-- Dynamic Gold Light Sheen Overlay -->
             <div class="gold-sheen-overlay"></div>
         </div>
     </div>
@@ -340,44 +338,41 @@
         const nextTrackBtn = document.getElementById('next-track-btn');
 
         // =========================================================================
-        // DANH SÁCH 3 FILE NHẠC MP3 (Bạn thay 3 đường dẫn link .mp3 của bạn vào 3 dòng dưới)
+        // DANH SÁCH 3 FILE NHẠC MP3 TRONG THƯ MỤC /audio TRÊN GIT
+        // (Thay đổi đúng tên file trong thư mục audio/ của bạn nếu khác)
         // =========================================================================
         const playlist = [
-            "audio/YTSave_YouTube_Dam_Cuoi_Tren_Duong_Que_Giao_Huong_Media_d2L7VNtjalA.mp3", // Bài 1
-            "audio/YTSave_YouTube_Giao_Huong_Tan_Thoi_Dam_Cuoi_Nhu_Mo_Media_xIAL2tA.mp3",            // Bài 2
-            "audio/YTSave_YouTube_Ngay_Xuan_Vui_Cuoi_Giao_Huong_Tan_Thoi_B_Media_vW0dgkxqEGI.mp3"              // Bài 3
+            "audio/bai1.mp3", 
+            "audio/bai2.mp3", 
+            "audio/bai3.mp3"  
         ];
 
         let currentTrackIndex = 0;
         let isAudioPlaying = false;
 
-        // Start presentation function
+        // Start presentation
         startBtn.addEventListener('click', startPresentation);
 
         function startPresentation() {
-            // Fade out overlay screen
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.style.visibility = 'hidden';
             }, 800);
 
-            // Bắt đầu phát bài đầu tiên trong playlist
+            // Phát bài đầu tiên trong playlist
             playTrack(currentTrackIndex);
 
-            // Start floating lotus petals rain
+            // Bắt đầu hiệu ứng cánh hoa sen & bụi vàng
             startPetalRain();
-
-            // Start floating gold dust sparkles
             startSparkles();
         }
 
-        // Tự động chuyển sang bài tiếp theo khi hết bài cũ (vòng lặp liên tục 1 -> 2 -> 3 -> 1...)
+        // Tự động chuyển bài khi kết thúc (Bài 1 -> Bài 2 -> Bài 3 -> Bài 1...)
         audio.addEventListener('ended', () => {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
             playTrack(currentTrackIndex);
         });
 
-        // Hàm phát nhạc theo chỉ số bài hát
         function playTrack(index) {
             audio.src = playlist[index];
             audio.volume = 0.65;
@@ -385,11 +380,11 @@
                 isAudioPlaying = true;
                 toggleAudioBtn.textContent = '🔊 Tắt Nhạc';
             }).catch(err => {
-                console.log("Autoplay audio blocked or error:", err);
+                console.log("Autoplay blocked or audio file not found:", err);
             });
         }
 
-        // Toggle Audio Button (Tắt / Bật nhạc)
+        // Toggle Audio Button
         toggleAudioBtn.addEventListener('click', () => {
             if (isAudioPlaying) {
                 audio.pause();
@@ -406,13 +401,13 @@
             }
         });
 
-        // Nút chuyển nhanh sang bài tiếp theo (⏭ Bài tiếp)
+        // Nút chuyển nhanh sang bài tiếp theo
         nextTrackBtn.addEventListener('click', () => {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
             playTrack(currentTrackIndex);
         });
 
-        // Toggle Fullscreen Button
+        // Fullscreen Toggle
         toggleFullscreenBtn.addEventListener('click', () => {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
@@ -425,10 +420,10 @@
             }
         });
 
-        // Spawning floating lotus petals continuously
+        // Spawning lotus petals
         function startPetalRain() {
             const container = document.getElementById('tv-wrapper');
-            const totalPetals = 40; // Active lotus petals on screen
+            const totalPetals = 40;
 
             for (let i = 0; i < totalPetals; i++) {
                 setTimeout(() => {
@@ -441,35 +436,30 @@
             const petal = document.createElement('div');
             petal.classList.add('petal');
 
-            // Random size (1.5vmin to 3.4vmin)
             const size = 1.5 + Math.random() * 1.9;
             petal.style.width = size + 'vmin';
             petal.style.height = size + 'vmin';
 
-            // Random horizontal start position across screen
             petal.style.left = (Math.random() * 100) + 'vw';
 
-            // Random fall duration (8s to 16s for graceful floating)
             const duration = 8 + Math.random() * 8;
             petal.style.animationDuration = duration + 's';
 
-            // Random sway horizontal drift offset
             const sway = (Math.random() * 32 - 16) + 'vw';
             petal.style.setProperty('--sway-x', sway);
 
             container.appendChild(petal);
 
-            // Loop animation continuously
             petal.addEventListener('animationend', () => {
                 petal.remove();
                 spawnSinglePetal(container);
             });
         }
 
-        // Spawning floating gold dust sparkles
+        // Spawning gold dust sparkles
         function startSparkles() {
             const container = document.getElementById('tv-wrapper');
-            const totalSparkles = 25; // Golden dust particles
+            const totalSparkles = 25;
 
             for (let i = 0; i < totalSparkles; i++) {
                 setTimeout(() => {
@@ -482,15 +472,12 @@
             const sparkle = document.createElement('div');
             sparkle.classList.add('sparkle');
 
-            // Random particle diameter
             const size = 0.4 + Math.random() * 0.8;
             sparkle.style.width = size + 'vmin';
             sparkle.style.height = size + 'vmin';
 
-            // Random horizontal placement
             sparkle.style.left = (Math.random() * 100) + 'vw';
 
-            // Random float duration (6s to 12s)
             const duration = 6 + Math.random() * 6;
             sparkle.style.animationDuration = duration + 's';
 
